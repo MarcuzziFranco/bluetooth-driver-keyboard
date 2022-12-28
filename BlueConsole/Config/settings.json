@@ -1,0 +1,10 @@
+{
+  "port": "COM6",
+  "serialRait": 9600,
+  "endOfMessage": "@",
+  "command_key_press": "P",
+  "command_key_hold": "H",
+  "command_key_released": "R",
+  "time_hold": 600,
+  "repetition_interval_time": 25
+}

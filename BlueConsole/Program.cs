@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlueConsole.Config;
+using System;
 using System.Collections.Generic;
 using System.IO.Ports;
 using System.Linq;
@@ -13,6 +14,8 @@ namespace BlueConsole
         static void Main(string[] args)
         {
             Console.WriteLine("Initialice...");
+            new ManagerConfiguration();
+
             new SerialPortProgram();
 
             Console.ReadLine();
