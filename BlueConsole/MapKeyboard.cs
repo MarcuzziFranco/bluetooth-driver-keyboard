@@ -1,31 +1,49 @@
-﻿using System;
+﻿using BlueConsole.Config;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WindowsInput.Native;
+
+
 namespace BlueConsole
 {
     public class MapKeyboard
     {
         private List<Dictionary<string, VirtualKeyCode>> listMapKeyboars = new List<Dictionary<string, VirtualKeyCode>>();
-        private int defaultMap = 0;
-        public MapKeyboard()
+        private int mapSelect = 1;
+        private readonly List<ListMapsKeyboard> _configurationListMapsKeys;
+        private readonly int defaultMapSelect;
+        public MapKeyboard(int defaultMap,List<ListMapsKeyboard> configurationListMapsKeys)
         {
-            listMapKeyboars.Add(new Dictionary<string, VirtualKeyCode>()); 
-            listMapKeyboars[0].Add("P-1", VirtualKeyCode.VK_O);
-            listMapKeyboars[0].Add("P-2", VirtualKeyCode.VK_P);
-            listMapKeyboars[0].Add("P-3", VirtualKeyCode.RIGHT);
-            listMapKeyboars[0].Add("P-4", VirtualKeyCode.LEFT);
-            listMapKeyboars[0].Add("P-5", VirtualKeyCode.END);
-            listMapKeyboars[0].Add("P-6", VirtualKeyCode.SPACE);
+            _configurationListMapsKeys = configurationListMapsKeys;
+            defaultMapSelect = defaultMap; 
+            mapSelect = defaultMapSelect;
+            LoadConfigurationKeysMaps();
+        }
 
+        private void LoadConfigurationKeysMaps()
+        {
+            int mapCount = -1;
+            _configurationListMapsKeys.ForEach(map =>
+            {
+                mapCount++;
+                listMapKeyboars.Add(new Dictionary<string, VirtualKeyCode>());
+                for (int i = 0; i < map.ListKeys.Count; i++)
+                {
+                    var key = map.ListKeys[i];
+                    listMapKeyboars[mapCount].Add("P-" + key.hardwareEntryCode, (VirtualKeyCode)key.outputCodeVk);
+                }
+            });
         }
 
         public VirtualKeyCode GetKeyboardAction(string keyCodePress)
+        {         
+            return listMapKeyboars[mapSelect][keyCodePress];    
+        }
+
+        public void changeMapKeys()
         {
-            //Console.WriteLine(keyCodePress);
-            return listMapKeyboars[defaultMap][keyCodePress];    
+            if (mapSelect < listMapKeyboars.Count-1) mapSelect++;
+            else mapSelect = defaultMapSelect;
         }
 
         //Depercate

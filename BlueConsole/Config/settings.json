@@ -6,5 +6,67 @@
   "command_key_hold": "H",
   "command_key_released": "R",
   "time_hold": 600,
-  "repetition_interval_time": 25
+  "repetition_interval_time": 25,
+  "defaultMap": 0,
+  "keyCodeChangeMap": 999,
+
+  "ListMapsKeyboards": [
+    {
+      "ListKeys": [
+        {
+          "hardwareEntryCode": "1",
+          "outputCodeVk": 79
+        },
+        {
+          "hardwareEntryCode": "2",
+          "outputCodeVk": 80
+        },
+        {
+          "hardwareEntryCode": "3",
+          "outputCodeVk": 81
+        },
+        {
+          "hardwareEntryCode": "4",
+          "outputCodeVk": 82
+        },
+        {
+          "hardwareEntryCode": "5",
+          "outputCodeVk": 83
+        },
+        {
+          "hardwareEntryCode": "6",
+          "outputCodeVk": 999
+        }
+      ]
+    },
+    {
+      "ListKeys": [
+        {
+          "hardwareEntryCode": "1",
+          "outputCodeVk": 73
+        },
+        {
+          "hardwareEntryCode": "2",
+          "outputCodeVk": 74
+        },
+        {
+          "hardwareEntryCode": "3",
+          "outputCodeVk": 75
+        },
+        {
+          "hardwareEntryCode": "4",
+          "outputCodeVk": 76
+        },
+        {
+          "hardwareEntryCode": "5",
+          "outputCodeVk": 77
+        },
+        {
+          "hardwareEntryCode": "6",
+          "outputCodeVk": 999
+        }
+      ]
+    }
+    
+  ]
 }

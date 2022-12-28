@@ -50,6 +50,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config\Configuration.cs" />
+    <Compile Include="Config\ListKeys.cs" />
+    <Compile Include="Config\ListMapsKeyboard.cs" />
     <Compile Include="Config\ManagerConfiguration.cs" />
     <Compile Include="MapKeyboard.cs" />
     <Compile Include="Program.cs" />

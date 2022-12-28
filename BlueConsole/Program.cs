@@ -14,9 +14,9 @@ namespace BlueConsole
         static void Main(string[] args)
         {
             Console.WriteLine("Initialice...");
-            new ManagerConfiguration();
+            //new ManagerConfiguration();
 
-            new SerialPortProgram();
+            new SerialPortProgram(new ManagerConfiguration().LoadConfiguration());
 
             Console.ReadLine();
              

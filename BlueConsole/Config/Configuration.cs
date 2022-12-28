@@ -11,11 +11,14 @@ namespace BlueConsole.Config
         public string port { get; set; }
         public int serialRait { get; set; }
         public string endOfMessage { get; set; }
-        public string command_key_press { get; set; }
-        public string command_key_hold { get; set; }
-        public string command_key_released { get; set; }
+        public char command_key_press { get; set; }
+        public char command_key_hold { get; set; }
+        public char command_key_released { get; set; }
         public int time_hold { get; set; }
         public int repetition_interval_time { get; set; }
+        public int defaultMap { get; set; }
+        public int keyCodeChangeMap { get; set; }
+        public List<ListMapsKeyboard> ListMapsKeyboards { get; set; }
 
     }
 }
