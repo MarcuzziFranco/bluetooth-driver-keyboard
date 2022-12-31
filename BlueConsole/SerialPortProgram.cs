@@ -10,6 +10,8 @@ using System.Timers;
 using WindowsInput.Native;
 using WindowsInput;
 using BlueConsole.Config;
+using System.IO;
+using System.Drawing;
 
 namespace BlueConsole
 {
@@ -42,6 +44,10 @@ namespace BlueConsole
             serialPort.DataReceived += new SerialDataReceivedEventHandler(Port_DataReceived);
             serialPort.Open();
 
+            if(serialPort.IsOpen)
+                serialPort.Write("connected");
+            
+
         }
 
       
@@ -56,7 +62,12 @@ namespace BlueConsole
             if (input[0] == _configuration.command_key_press){
                 keyAction = mapKeyboard.GetKeyboardAction(input); 
                 if((int)keyAction == _configuration.keyCodeChangeMap)
-                    mapKeyboard.changeMapKeys();
+                {
+                    mapKeyboard.ChangeMapKeys();
+                    Color color = ColorTranslator.FromHtml(_configuration.ListMapsKeyboards[mapKeyboard.GetMapSelect()].ColorLed);
+                    string colorSend = color.R+"|"+color.G+"|"+color.B+"|";
+                    serialPort.WriteLine(colorSend);
+                }
                 else inputSimulator.Keyboard.KeyDown(keyAction); 
             }
             if(input[0] == _configuration.command_key_hold){

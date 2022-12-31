@@ -9,5 +9,6 @@ namespace BlueConsole.Config
     public class ListMapsKeyboard
     {
         public List<ListKeys> ListKeys { get; set; }
+        public string ColorLed { get; set; }
     }
 }

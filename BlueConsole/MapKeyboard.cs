@@ -40,20 +40,16 @@ namespace BlueConsole
             return listMapKeyboars[mapSelect][keyCodePress];    
         }
 
-        public void changeMapKeys()
+        public void ChangeMapKeys()
         {
             if (mapSelect < listMapKeyboars.Count-1) mapSelect++;
             else mapSelect = defaultMapSelect;
         }
 
-        //Depercate
-        private string FilterCodeAction (string keyCodePress)
+        public int GetMapSelect()
         {
-            string code = String.Concat(keyCodePress[0],keyCodePress[1],keyCodePress[2]);
-            return code;
-
+            return mapSelect;
         }
-
         
     }
 }

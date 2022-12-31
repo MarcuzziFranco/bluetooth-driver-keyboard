@@ -37,7 +37,8 @@
           "hardwareEntryCode": "6",
           "outputCodeVk": 999
         }
-      ]
+      ],
+      "ColorLed": "#FF0000"
     },
     {
       "ListKeys": [
@@ -65,8 +66,8 @@
           "hardwareEntryCode": "6",
           "outputCodeVk": 999
         }
-      ]
+      ],
+      "ColorLed": "#00FF00"
     }
-    
   ]
 }
