@@ -9,59 +9,74 @@ using System.Windows.Input;
 using System.Timers;
 using WindowsInput.Native;
 using WindowsInput;
+using BlueConsole.Config;
+using System.IO;
+using System.Drawing;
 
 namespace BlueConsole
 {
     class SerialPortProgram
     {
-
-        private static char  COMMAND_KEY_PRESS = 'P';
-        private static char COMMAND_KEY_HOLD = 'H';
-        private static char COMMAND_KEY_RELEASED = 'R';
-        private static int TIME_HOLD = 600;
-        private static int REPETITION_INTERVAL_TIME = 25;
-
-        private SerialPort serialPort = new SerialPort("COM6", 9600, Parity.None, 8);
-        private readonly InputSimulator sim = new InputSimulator();
+        private SerialPort serialPort;
+        private readonly InputSimulator inputSimulator = new InputSimulator();
         private string newBufferInput = "";
-        private readonly string endOfMessage = "@";
         private readonly MapKeyboard mapKeyboard;
         private VirtualKeyCode keyAction;
         private System.Timers.Timer timerHold = new System.Timers.Timer();
-      
 
-        public SerialPortProgram()
-        { 
+        private Configuration _configuration;
+
+        public SerialPortProgram(Configuration configuration)
+        {
+            _configuration = configuration;
+
+            serialPort = new SerialPort(_configuration.port,
+                                        _configuration.serialRait, 
+                                        Parity.None, 
+                                        8);
+
             timerHold.Enabled = false;
             timerHold.Elapsed += new ElapsedEventHandler(EnableRepetKeyEvent);
 
-            mapKeyboard = new MapKeyboard();
+            mapKeyboard = new MapKeyboard(_configuration.defaultMap,_configuration.ListMapsKeyboards);
             Console.WriteLine("Incoming Data:");
 
             serialPort.DataReceived += new SerialDataReceivedEventHandler(Port_DataReceived);
             serialPort.Open();
 
+            if (serialPort.IsOpen)
+                serialPort.Write("Connected");
+            else 
+                serialPort.WriteLine("Error connection");
         }
 
       
         private void Port_DataReceived(object sender,SerialDataReceivedEventArgs e)
         {
-            newBufferInput = serialPort.ReadTo(endOfMessage);
+            newBufferInput = serialPort.ReadTo(_configuration.endOfMessage);
             ProcessKeyBuffer(newBufferInput);  
         }
 
         private void ProcessKeyBuffer(string input)
-        { 
-            if (input[0] == COMMAND_KEY_PRESS){
-                keyAction = mapKeyboard.GetKeyboardAction(input);  
-                sim.Keyboard.KeyDown(keyAction);    
+        {
+            Console.WriteLine(input);
+            if (input[0] == _configuration.command_key_press){
+                keyAction = mapKeyboard.GetKeyboardAction(input); 
+                if((int)keyAction == _configuration.keyCodeChangeMap)
+                {
+                    mapKeyboard.ChangeMapKeys();
+                    Color color = ColorTranslator.FromHtml(_configuration.ListMapsKeyboards[mapKeyboard.GetMapSelect()].ColorLed);
+                    string colorSend = color.R+"|"+color.G+"|"+color.B+"|";
+                    serialPort.WriteLine(colorSend);
+                }
+                else inputSimulator.Keyboard.KeyDown(keyAction); 
             }
-            if(input[0] == COMMAND_KEY_HOLD){
+            if(input[0] == _configuration.command_key_hold){
                 timerHold.Enabled = true;
-                timerHold.Interval = TIME_HOLD;
+                timerHold.Interval = _configuration.time_hold;
                 timerHold.Start();
             }
-            if(input[0] == COMMAND_KEY_RELEASED){
+            if(input[0] == _configuration.command_key_released){
                 timerHold.Enabled = false;
                 timerHold.Stop();             
             }
@@ -69,8 +84,8 @@ namespace BlueConsole
 
         private void EnableRepetKeyEvent(object source, ElapsedEventArgs e)
         {
-            timerHold.Interval = REPETITION_INTERVAL_TIME;
-            sim.Keyboard.KeyPress(keyAction);
+            timerHold.Interval = _configuration.repetition_interval_time;
+            inputSimulator.Keyboard.KeyPress(keyAction);
         }
 
     }
