@@ -1,5 +1,5 @@
 {
-  "port": "COM6",
+  "port": "COM4",
   "serialRait": 9600,
   "endOfMessage": "@",
   "command_key_press": "P",

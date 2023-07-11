@@ -44,10 +44,10 @@ namespace BlueConsole
             serialPort.DataReceived += new SerialDataReceivedEventHandler(Port_DataReceived);
             serialPort.Open();
 
-            if(serialPort.IsOpen)
-                serialPort.Write("connected");
-            
-
+            if (serialPort.IsOpen)
+                serialPort.Write("Connected");
+            else 
+                serialPort.WriteLine("Error connection");
         }
 
       
@@ -58,7 +58,8 @@ namespace BlueConsole
         }
 
         private void ProcessKeyBuffer(string input)
-        { 
+        {
+            Console.WriteLine(input);
             if (input[0] == _configuration.command_key_press){
                 keyAction = mapKeyboard.GetKeyboardAction(input); 
                 if((int)keyAction == _configuration.keyCodeChangeMap)
